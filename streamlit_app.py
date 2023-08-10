@@ -51,3 +51,7 @@ streamlit.header("The fruit load list contains:")
 streamlit.dataframe(my_data_rows)
 
 # if MODULE_NOT_FOUND error: [ < Manage App ] > [:] > [Reboot App]
+
+# Allow user to add another fruit
+fruit_choice = streamlit.text_input('What fruit would you like to add?','jackfruit')
+streamlit.write('Thanks for adding ', fruit_choice, '!')

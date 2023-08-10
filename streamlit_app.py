@@ -59,4 +59,4 @@ fruit_choice = streamlit.text_input('What fruit would you like to add?','jackfru
 streamlit.write('Thanks for adding ', fruit_choice, '!')
 
 # Halt exec
-streamlit.stop()
+#streamlit.stop()

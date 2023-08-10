@@ -39,6 +39,12 @@ try:
 except URLError as e:
   streamlit.error()
 
+streamlit.header("The fruit load list contains:")
+def get_fruit_load_list():
+  with my_cnx.cursor() as my_cur
+    my_cur.execute("select * from pc_rivery_db.public.fruit_load_list")
+    return my_cur.fetchall()
+
 # Add streamlit app > Settings > Secrets:
 #[snowflake]
 #user = "RWS"
@@ -49,11 +55,7 @@ except URLError as e:
 #schema = "public"
 #role = "pc_rivery_role"
 
-streamlit.header("The fruit load list contains:")
-def get_fruit_load_list():
-  with my_cnx.cursor() as my_cur
-    my_cur.execute("select * from pc_rivery_db.public.fruit_load_list")
-    return my_cur.fetchall()
+# if MODULE_NOT_FOUND error: [ < Manage App ] > [:] > [Reboot App]
 
 # Add a button
 if streamlit.button('Get Fruit Load List'):
@@ -61,11 +63,17 @@ if streamlit.button('Get Fruit Load List'):
   my_data_rows = get_fruit_load_list()
   streamlit.dataframe(my_data_rows)
 
-# if MODULE_NOT_FOUND error: [ < Manage App ] > [:] > [Reboot App]
-
 # Allow user to add another fruit
-fruit_choice = streamlit.text_input('What fruit would you like to add?','jackfruit')
-streamlit.write('Thanks for adding ', fruit_choice, '!')
+def insert_row_snowflake(new_fruit):
+  with my_cnx.cursor() as my_cur:
+      my_cur.execute("insert into fruit_load_list values ('" + new_fruit + "')")
+      return 'Thanks for adding ', new_fruit
+
+add_fruit = streamlit.text_input('What fruit would you like to add?')
+if streamlit.button('Add a fruit to the list':
+  my_cnx = snowflake.connector.connect(**streamlit.secrets["snowflake"])
+  from_fn = insert_row_snowflake(add_fruit)
+  streamlit.text(from_fn)
 
 # Halt exec
 #streamlit.stop()
